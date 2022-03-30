@@ -1,0 +1,46 @@
+class House():
+    valuationRate = 20 # percentage
+    def __init__(self,city,sqft,price):
+        self.city = city
+        self.sqft = sqft
+        self.price = price
+    def getPrice(self):
+        return self.price
+    def setPrice(self,price):
+        self.price = price
+    def applyValuation(self):
+        self.price += self.price * self.valuationRate/100
+
+# create class Townhouse that inherits from class House
+# class Townhouse should have valuationRate = 10
+class Townhouse(House):
+    valuationRate = 10
+    def __init__(self,city,sqft,price,levels):
+        House.__init__(self,city,sqft,price)
+        self.levels = levels
+    def getLevels(self):
+        return(self.levels)
+
+
+# (enter your code in the blank lines)
+# create an object House: city=Duluth, sqft=2000, price=200000
+house1 = House("Duluth",200,200000)
+
+# create an object Townhouse: city=Buford, sqft=5000, price=200000
+thouse1 = Townhouse("Buford",5000,200000,2)
+print("Townhouse in Buford has ",thouse1.getLevels() , "levels")
+
+# use method applyValuation to both objects: house and townhouse
+house1.applyValuation()
+thouse1.applyValuation()
+
+# compare the price of both objects and print the result:
+# the price of the house is higher, less or the same as the townhouse
+if house1.getPrice() > thouse1.getPrice():
+  print("House in Duluth wins: ", house1.getPrice())
+  print("Townhouse loses: ", thouse1.getPrice())
+elif house1.getPrice() < thouse1.getPrice():
+  print("Townhouse wins: ", thouse1,getPrice())
+  print("House in Duluth loses: ", house1.getPrice())
+else:
+  print("The price is the same")
