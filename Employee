@@ -1,0 +1,28 @@
+class Employee:
+
+  numOfEmployees = 0 # class variable
+  percentraise = 10
+
+  def __init__(self, first, last, ss, pay):
+      self.first = first
+      self.last = last
+      self.ss = ss
+      self.pay = pay
+      Employee.numOfEmployees += 1
+
+  def applyRaise(self):
+      self.pay += self.pay * self.percentRaise/100
+
+class Manager(Employee):
+    percentRaise = 25
+
+emp1 = Employee("Joe","Doe","111",5000)
+emp2 = Employee("Mary","Smith","222",60000)
+print("The total number of employees is now ", Employee.numOfEmployees)
+
+mgr1 = Manager("Salim","Rocky","333",60000)
+
+emp2.applyRaise()
+mgr1.applyRaise()
+print("Mary's raise is ", emp2.pay)
+print("Salim's raise is ", mgr.pay)
