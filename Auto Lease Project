@@ -1,0 +1,155 @@
+# Auto Lease Project, ITEC2120, Spring 2021
+# Name:
+# Student ID:
+# objective:
+# input:
+# output:
+
+class Car:
+    def __init__(self,carId,maker,year,rent=100):
+        self.carId = carId
+        self.maker = maker
+        self.year = year
+        self.rent = rent
+    def getCarRent(self):
+        return self.rent
+    def getCarRecord(self):
+        return (f"{self.maker}, {self.year}")
+    def setCarRent(self,rent):
+        self.rent = rent
+
+class Customer:
+    def __init__(self,firstName,lastName,ccNumber):
+        self.firstName = firstName
+        self.lastName = lastName
+        self.ccNumber = ccNumber
+    def setccNumbe(self,ccNumber):
+        self.ccNumber = ccNumber
+    def getCustomerName(self):
+        return (self.firstName + " " + self.lastName)
+    def getCustomerccNumber(self):
+        return self.ccNumber
+
+class Reservation(Customer):
+    totalNumberOfReservations = 0
+    def __init__(self,firstName,lastName,ccNumber,resId):
+        Customer.__init__(self,firstName,lastName,ccNumber)
+        self.resID = resID
+        self.car   = [] # Car object
+        self.days = []
+        self.balance = 0
+    def addCar(self,car,days):
+        self.car.append(car)
+        self.days.append(days)
+    def setBalance(self):
+        # multiply "price of car rent" by "days"
+        self.balance = 0
+        for i in range(len(self.days)):
+            self.balance += self.car[i].getCarRent() * self.days[i]
+    def getBalance(self):
+        return self.balance
+    def getCar(self):
+        return self.car
+
+# Main Program
+# Open and read car records
+f1 = open("car_record.txt")
+carString = f1.read()
+f1.close()
+carList1 = carString.split("\n")
+carList = []
+for elem in carList1:
+    carList2 = elem.split(",")
+    car = Car(carList2[0], carList2[1], carList2[2], float(carList2[3]))
+    carList.append(car)
+
+# Open and read customer records
+f2 = open("customer_record.txt")
+custString =f2.read()
+f2.close()
+custList1 = custString.split("\n")
+custList = []
+ccList = []
+for elem in custList1:
+    custList2 = elem.split(",")
+    customer = Customer(custList2[0], custList2[1], custList2[2])
+    custList.append(customer)
+    ccList.append(custList2[2])
+
+totalRevenue = 0
+resNum = 1
+print("\nWelcome to Python Car Rentals")
+ccIn = input("Enter CC number or done: ")
+
+# ['1111','2222','3333','4444']
+while ccIn != "done":
+    if ccList.count(ccIn) < 1:
+       print("Sorry you have to be a registered customer...goodbye")
+       break
+    # get the customer from customer list
+    for elem in custList:
+        if elem.getCustomerCCNumber() == ccIn:
+            cust1 = elem
+    res1 = Reservation(cust1.firstName, cust1.lastName, cust1.getCustomerCCNumber(),1)
+
+    print("Select a Car")
+    menu_number = 0
+    for elem in carList:
+        print(f"{menu_number}. {elem.getCarRecord()}")
+        menu_number += 1
+    print("done. Get your Balance")
+    carIndex = input("Enter your selection: ")
+    while carIndex != "done":
+        #if carIndex != "done":
+        #     break
+        while carIndex not in ('0','1','2','3'):
+            carIndex = input("Enter your selection: ")
+
+        days = int(input("Enter   number of days: "))
+        car1 = carList[int(carIndex)]
+        res1.addCar(car1,days)
+        res1.setBalance()
+        #print(res1.getBalance())
+        print("Select a Car")
+        menu_number = 0
+        for elem in carList:
+            print(f"{menu_number}. {elem.getCarRecord()}")
+            menu_number += 1
+        print("done. Get your Balance")
+        carIndex = input("Enter your selection: ")
+
+    print(f"Thank you, {cust1.getCustomerName()}, your reservation number is {res1.resId}")
+    for item in res1.getCar():
+        print(f"You've selected a item.getCarRecord()")
+        print("And your balance is: ", res1.getBalance())
+
+    # Update totalRevenue
+    totalRevenue += res1.getBalance()
+    resNum += 1
+
+    print("\nWelcome to Python Car Rentals")
+    ccIn = input("Enter CC number or done: ")
+
+print("\nPython Car Rental Total Revenue: ",totalRevenue)
+print("Total number of reservations: ", resNum)
+print("\nEnd of Program")
+
+''''
+# Main Program
+car1 = Car(1001,'HondaAccord',2020,120)
+car2 = Car(1002,'Toyota Corolla',2019,100)
+cust1 = Customer('Andre','Parmer',1111)
+print(car1.getCarRecord())
+print(cust1.getCustomerName())
+numDays = 5
+resId = 11
+res1 = Reservation(cust1.firstName,cust1.lastName,cust1.ccNumber,resId)
+res1.addCar(car1,numDays)
+res1.setBalance()
+print(res1.getBalane())
+print(res1.getCustomerName())
+res1.addCar(car2,numDays)
+res1.setBalance()
+print(res1.getBalance())
+# pre-test of the code
+'''
