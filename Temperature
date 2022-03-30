@@ -1,0 +1,14 @@
+#Jose_Saladin
+#Prompt the user to input the temperature value in
+#Fahrenheit.
+temp_in_fahrenheit = float(input("Temperature in \ Fahrenheit: "))
+
+#Convert the temperature value entered by the user into
+#Celsius by using the formula C = (F - 32) / 1.8 where
+#F is temperature in Fahrenheit and C is temperature in
+#Celsius.
+temp_in_celsius = (temp_in_fahrenheit - 32) / 1.8
+
+#Display the equivalent temperature in Celsius.
+print(str(temp_in_fahrenheit) + " degrees Fahrenheit is "
++ str(temp_in_celsius) + " degrees Celsius.")
