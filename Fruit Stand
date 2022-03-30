@@ -1,0 +1,140 @@
+#Objective: Develop a program using object oriented methodology, to help fruit stand owners.
+#Input: from the keyboard: fruits and price
+#Output: to the console: balance
+
+class Fruit:
+  #sets name and price as 0 default
+  def __init__(self, name='',price=0):
+    self.name = name
+    self.price = price
+
+  #sets the fruit price
+  def set_fruit_price(self,price):
+    self.price = price
+
+  #gets the fruit price
+  def get_fruit_price(self):
+    return self.price
+
+  #gets the fruit name
+  def get_fruit_name(self):
+    return self.name
+
+
+class Customer():
+  #sets the customer name
+  def __init__(self, cust_name):
+    self.cust_name = cust_name
+
+  #gets the customer name
+  def get_customer_name(self):
+    return self.cust_name
+
+class ShoppingCart(Customer):
+  #sets the customer name and
+  #initialize item and quantity with empty list
+  def __init__(self, cust_name):
+    self.cust_name = cust_name
+    self.item = []
+    self.quantity = []
+
+  #adds an item and its price
+  def add_item(self, item, quantity):
+    self.item.append(item)
+    self.quantity.append(quantity)
+
+  #gets item price by name
+  def get_item_price(self, fruit_list, fruit_name):
+    for fruit in fruit_list:
+      if fruit.get_fruit_name() == fruit_name:
+        return fruit.get_fruit_price()
+    return None
+
+  #calculates the total purchase and returns the value
+  def balance(self,fruit_list):
+    totalPurchase = 0.0
+    for fruit in self.item:
+      q = self.quantity[self.item.index(fruit)]
+      p = self.get_item_price(fruit_list, fruit)
+      totalPurchase += p * q
+    return totalPurchase
+
+#holds the fruit names
+fruit_name_list = []
+
+#gets fruit names until user types q for exit
+#valuation loop
+while True:
+  current_fruit_name = input('Enter fruit name to add(press q to quit): ')
+  if current_fruit_name == 'q':
+    print('-'*40) #border for visual
+    break
+  else:
+    fruit_name_list.append(current_fruit_name)
+
+#holds fruit objects
+fruit_object_list = []
+
+#creates fruit objects and adds to the list
+for fruit_name in fruit_name_list:
+  fruit_object_list.append(Fruit(fruit_name))
+
+#for each fruit sets its price
+for fruit in fruit_object_list:
+  #valuation loop
+  while True:
+    current_fruit_price = input(f'Enter {fruit.get_fruit_name()} price: ')
+    if current_fruit_price.isdecimal():
+      fruit.set_fruit_price(float(current_fruit_price))
+      break
+    else:
+      print('Fruit price should be decimal!')
+
+#prints fruit details
+print('\n\nFruit Details:\n\n')
+for fruit in fruit_object_list:
+  print(f'\t{fruit.get_fruit_name()} - ${fruit.get_fruit_price()}')
+
+#welcome banner
+print('\n\n\tWelcome to fruitRus')
+
+#holds the total Revenue
+revenue = 0.0
+
+#valuation loop
+while True:
+  #asks customer name until user type q for quit
+  current_customer_name = input('Enter customer name(or q to quit): ')
+  if current_customer_name == 'q':
+    print('-'*40) #border for visual
+    #prints revenue and program exit
+    print(f'\n\tTotal Revenue is ${revenue}')
+    print('\nEnd of Program')
+    print('-'*40) #border for visual
+    break
+  else:
+    #creates current customer shopping cart
+    current_customer_cart = ShoppingCart(current_customer_name)
+
+    #gets the quantity of each fruit
+    for fruit in fruit_object_list:
+      #valuation loop
+      while True:
+        current_quantity = input(f'Enter quantity of {fruit.get_fruit_name()} at ${fruit.get_fruit_price()}:')
+        if current_quantity.isdecimal():
+          current_customer_cart.add_item(fruit.get_fruit_name(), int(current_quantity))
+          break
+        else:
+          print('Quantity should be a number!')
+
+    #gets current balance
+    current_customer_purchase = current_customer_cart.balance(fruit_object_list)
+
+    print('\n')
+    #prints current customer name along with their purchase
+    print(f'{current_customer_cart.get_customer_name()}\'s total purchase is ${current_customer_purchase}')
+    print('-'*40) #border for visual
+    print('\n')
+
+    #adds to revenue
+    revenue += current_customer_purchase
